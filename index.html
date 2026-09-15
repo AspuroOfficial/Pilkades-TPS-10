@@ -751,7 +751,7 @@
 
         <div class="suara-sync" id="suaraSyncBadge">Memuat data suara…</div>
         <div class="suara-meta" id="suaraMetaText"></div>
-        <div class="suara-meta">Perubahan tersimpan ke spreadsheet setelah menekan "Simpan hasil suara".</div>
+        <div class="suara-meta">Perubahan tersimpan ke Database setelah menekan "Simpan hasil suara".</div>
 
         <div class="suara-actions">
           <button class="btn btn-primary" id="suaraSaveBtn" style="display:none;">
@@ -818,7 +818,7 @@
   <div class="overlay-backdrop"></div>
   <div class="center-panel">
     <div class="center-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21.5 20h-19L12 3.5Z"/><path d="M12 10v4.2M12 17.2v.1"/></svg></div>
-    <h3>Belum tersambung ke spreadsheet</h3>
+    <h3>Belum tersambung ke Database</h3>
     <p id="setupText">Tempel URL Web App hasil deploy Google Apps Script ke variabel <code>APPS_SCRIPT_URL</code> di bagian atas file index.html, lalu simpan dan buka ulang halaman ini.</p>
     <button class="btn btn-primary" id="retryBtn"><span>Coba sambungkan lagi</span></button>
   </div>
@@ -961,7 +961,7 @@ const suaraCard = document.querySelector('.suara-card');
 })();
 
 // Teks loading berganti-ganti supaya proses sinkronisasi terasa hidup, bukan macet.
-const LOADING_MESSAGES = ['Menyiapkan data pemilih…', 'Menghubungi spreadsheet…', 'Menyusun daftar TPS 10…'];
+const LOADING_MESSAGES = ['Menyiapkan data pemilih…', 'Menghubungi Database…', 'Menyusun daftar TPS 10…'];
 let loadingMsgIdx = 0;
 const loadingMsgTimer = setInterval(() => {
   loadingMsgIdx = (loadingMsgIdx + 1) % LOADING_MESSAGES.length;
@@ -1073,7 +1073,7 @@ async function fetchData(isManual){
     state.raw = json.data || [];
     setupOverlay.classList.remove('show');
     loadingOverlay.classList.add('hide');
-    if (state.online === false) showToast('Tersambung kembali ke spreadsheet.');
+    if (state.online === false) showToast('Tersambung kembali ke Database.');
     state.online = true;
     setSyncStatus('online', 'Tersinkron');
     renderAll();
@@ -1084,7 +1084,7 @@ async function fetchData(isManual){
     if (state.raw.length === 0){
       loadingOverlay.classList.add('hide');
       setupOverlay.classList.add('show');
-      $('setupText').textContent = 'Tidak dapat menghubungi Web App. Pastikan URL sudah benar dan deployment diatur ke akses "Anyone".';
+      $('setupText').textContent = 'Tidak dapat menghubungi Database';
     }
   }finally{
     state.syncing = false;
